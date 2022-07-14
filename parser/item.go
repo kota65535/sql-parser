@@ -26,7 +26,7 @@ func (r DatabaseOptions) Map() *linkedhashmap.Map {
 		ret.Put("DEFAULT COLLATE", r.DefaultCollate)
 	}
 	if r.DefaultEncryption != "" {
-		ret.Put("DEFAULT ENCRYPTION", fmt.Sprintf("'%s'", r.DefaultEncryption))
+		ret.Put("DEFAULT ENCRYPTION", r.DefaultEncryption)
 	}
 	return ret
 }
@@ -125,7 +125,7 @@ func (r ColumnOptions) Strings() []string {
 		strs = append(strs, "PRIMARY KEY")
 	}
 	if r.Comment != "" {
-		strs = append(strs, fmt.Sprintf("COMMENT '%s'", r.Comment))
+		strs = append(strs, fmt.Sprintf("COMMENT %s", r.Comment))
 	}
 	if r.ReferenceDefinition.TableName != "" {
 		strs = append(strs, r.ReferenceDefinition.String())
@@ -243,7 +243,7 @@ type StringListType struct {
 func (t StringListType) String() string {
 	values := ""
 	if len(t.Values) > 0 {
-		values = fmt.Sprintf("(%s)", JoinS(t.Values, ", ", "'"))
+		values = fmt.Sprintf("(%s)", strings.Join(t.Values, ", "))
 	}
 	return fmt.Sprintf("%s%s%s%s",
 		t.Name,
@@ -476,7 +476,7 @@ func (r IndexOptions) Strings() []string {
 		strs = append(strs, fmt.Sprintf("WITH PARSER %s", r.Parser))
 	}
 	if r.Comment != "" {
-		strs = append(strs, fmt.Sprintf("COMMENT '%s'", r.Comment))
+		strs = append(strs, fmt.Sprintf("COMMENT %s", r.Comment))
 	}
 	if r.Visibility != "" {
 		strs = append(strs, r.Visibility)
@@ -561,31 +561,31 @@ func (r TableOptions) Map() *linkedhashmap.Map {
 		ret.Put("DEFAULT COLLATE", r.DefaultCollate)
 	}
 	if r.Comment != "" {
-		ret.Put("COMMENT", fmt.Sprintf("'%s'", r.Comment))
+		ret.Put("COMMENT", r.Comment)
 	}
 	if r.Compression != "" {
-		ret.Put("COMPRESSION", fmt.Sprintf("'%s'", r.Compression))
+		ret.Put("COMPRESSION", r.Compression)
 	}
 	if r.Connection != "" {
-		ret.Put("CONNECTION", fmt.Sprintf("'%s'", r.Connection))
+		ret.Put("CONNECTION", r.Connection)
 	}
 	if r.DataDirectory != "" {
-		ret.Put("DATA DIRECTORY", fmt.Sprintf("'%s'", r.DataDirectory))
+		ret.Put("DATA DIRECTORY", r.DataDirectory)
 	}
 	if r.IndexDirectory != "" {
-		ret.Put("INDEX DIRECTORY", fmt.Sprintf("'%s'", r.IndexDirectory))
+		ret.Put("INDEX DIRECTORY", r.IndexDirectory)
 	}
 	if r.DelayKeyWrite != "" {
 		ret.Put("DELAY_KEY_WRITE", r.DelayKeyWrite)
 	}
 	if r.Encryption != "" {
-		ret.Put("ENCRYPTION", fmt.Sprintf("'%s'", r.Encryption))
+		ret.Put("ENCRYPTION", r.Encryption)
 	}
 	if r.Engine != "" {
 		ret.Put("ENGINE", r.Engine)
 	}
 	if r.EngineAttribute != "" {
-		ret.Put("ENGINE_ATTRIBUTE", fmt.Sprintf("'%s'", r.EngineAttribute))
+		ret.Put("ENGINE_ATTRIBUTE", r.EngineAttribute)
 	}
 	if r.InsertMethod != "" {
 		ret.Put("INSERT_METHOD", r.InsertMethod)
@@ -603,13 +603,13 @@ func (r TableOptions) Map() *linkedhashmap.Map {
 		ret.Put("PACK_KEYS", r.PackKeys)
 	}
 	if r.Password != "" {
-		ret.Put("PASSWORD", fmt.Sprintf("'%s'", r.Password))
+		ret.Put("PASSWORD", r.Password)
 	}
 	if r.RowFormat != "" {
 		ret.Put("ROW_FORMAT", r.RowFormat)
 	}
 	if r.SecondaryEngineAttribute != "" {
-		ret.Put("SECONDARY_ENGINE_ATTRIBUTE", fmt.Sprintf("'%s'", r.SecondaryEngineAttribute))
+		ret.Put("SECONDARY_ENGINE_ATTRIBUTE", r.SecondaryEngineAttribute)
 	}
 	if r.StatsAutoRecalc != "" {
 		ret.Put("STATS_AUTO_RECALC", r.StatsAutoRecalc)

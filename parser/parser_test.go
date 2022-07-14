@@ -27,7 +27,7 @@ func TestCreateDb(t *testing.T) {
 			DatabaseOptions: DatabaseOptions{
 				DefaultCharset:    "utf8mb4",
 				DefaultCollate:    "utf8mb4_bin",
-				DefaultEncryption: "Y",
+				DefaultEncryption: "'Y'",
 			},
 		},
 		CreateDatabaseStatement{
@@ -36,7 +36,7 @@ func TestCreateDb(t *testing.T) {
 			DatabaseOptions: DatabaseOptions{
 				DefaultCharset:    "utf8mb4",
 				DefaultCollate:    "utf8mb4_bin",
-				DefaultEncryption: "Y",
+				DefaultEncryption: "'Y'",
 			},
 		},
 	}, r)
@@ -100,23 +100,23 @@ func TestCreateTableWithOptions(t *testing.T) {
 				DefaultCharset:           "utf8mb4",
 				Checksum:                 "1",
 				DefaultCollate:           "utf8mb4_bin",
-				Comment:                  "foo",
-				Compression:              "ZLIB",
-				Connection:               "connect_string",
-				DataDirectory:            "path1",
-				IndexDirectory:           "path2",
+				Comment:                  "'foo'",
+				Compression:              "'ZLIB'",
+				Connection:               "'connect_string'",
+				DataDirectory:            "'path1'",
+				IndexDirectory:           "'path2'",
 				DelayKeyWrite:            "1",
-				Encryption:               "Y",
+				Encryption:               "'Y'",
 				Engine:                   "INNODB",
-				EngineAttribute:          "attr1",
+				EngineAttribute:          "'attr1'",
 				InsertMethod:             "FIRST",
 				KeyBlockSize:             "1",
 				MaxRows:                  "1",
 				MinRows:                  "1",
 				PackKeys:                 "1",
-				Password:                 "password",
+				Password:                 "'password'",
 				RowFormat:                "DYNAMIC",
-				SecondaryEngineAttribute: "attr2",
+				SecondaryEngineAttribute: "'attr2'",
 				StatsAutoRecalc:          "1",
 				StatsPersistent:          "1",
 				StatsSamplePages:         "1",
@@ -128,6 +128,18 @@ func TestCreateTableWithOptions(t *testing.T) {
 	}, r)
 
 	b1, err := ioutil.ReadFile("test/table/options/output.sql")
+
+	assert.Equal(t, string(b1), r[0].String())
+}
+
+func TestCreateTableWithExpressions(t *testing.T) {
+	f, err := os.Open("test/table/expression/input.sql")
+	p := NewParser(f)
+	r, err := p.Parse()
+
+	require.NoError(t, err)
+
+	b1, err := ioutil.ReadFile("test/table/expression/output.sql")
 
 	assert.Equal(t, string(b1), r[0].String())
 }
@@ -158,7 +170,7 @@ func TestCreateTableWithNumericTypes(t *testing.T) {
 					},
 					ColumnOptions: ColumnOptions{
 						Nullability: "NOT NULL",
-						Default:     "1",
+						Default:     "0b001",
 					},
 				},
 				&ColumnDefinition{
@@ -195,7 +207,7 @@ func TestCreateTableWithNumericTypes(t *testing.T) {
 					},
 					ColumnOptions: ColumnOptions{
 						Nullability: "NOT NULL",
-						Default:     "1",
+						Default:     "TRUE",
 					},
 				},
 				&ColumnDefinition{
@@ -214,7 +226,7 @@ func TestCreateTableWithNumericTypes(t *testing.T) {
 					},
 					ColumnOptions: ColumnOptions{
 						Nullability: "NOT NULL",
-						Default:     "1",
+						Default:     "0x123",
 					},
 				},
 				&ColumnDefinition{
@@ -233,7 +245,7 @@ func TestCreateTableWithNumericTypes(t *testing.T) {
 					},
 					ColumnOptions: ColumnOptions{
 						Nullability: "NOT NULL",
-						Default:     "1",
+						Default:     "0x0123",
 					},
 				},
 				&ColumnDefinition{
@@ -347,7 +359,7 @@ func TestCreateTableWithNumericTypes(t *testing.T) {
 						Name: "double",
 					},
 					ColumnOptions: ColumnOptions{
-						GeneratedAs: "(SQRT(double1 * double2))",
+						GeneratedAs: "(SQRT(`double1` * `double2`))",
 					},
 				},
 			},
@@ -580,14 +592,14 @@ func TestCreateTableWithStringTypes(t *testing.T) {
 					ColumnName: "enum1",
 					DataType: StringListType{
 						Name:   "enum",
-						Values: []string{"a"},
+						Values: []string{"'a'"},
 					},
 				},
 				&ColumnDefinition{
 					ColumnName: "enum2",
 					DataType: StringListType{
 						Name:      "enum",
-						Values:    []string{"a", "b"},
+						Values:    []string{"'a'", "'b'"},
 						Charset:   "utf8mb4",
 						Collation: "utf8mb4_bin",
 					},
@@ -600,14 +612,14 @@ func TestCreateTableWithStringTypes(t *testing.T) {
 					ColumnName: "set1",
 					DataType: StringListType{
 						Name:   "set",
-						Values: []string{"a"},
+						Values: []string{"'a'"},
 					},
 				},
 				&ColumnDefinition{
 					ColumnName: "set2",
 					DataType: StringListType{
 						Name:      "set",
-						Values:    []string{"a", "b"},
+						Values:    []string{"'a'", "'b'"},
 						Charset:   "utf8mb4",
 						Collation: "utf8mb4_bin",
 					},
@@ -803,7 +815,7 @@ func TestCreateTableWithindexes(t *testing.T) {
 						IndexType:    "BTREE",
 						KeyBlockSize: "1",
 						Visibility:   "VISIBLE",
-						Comment:      "foo",
+						Comment:      "'foo'",
 					},
 				},
 				&FullTextIndexDefinition{
@@ -821,7 +833,7 @@ func TestCreateTableWithindexes(t *testing.T) {
 						KeyBlockSize: "1",
 						Parser:       "ngram",
 						Visibility:   "VISIBLE",
-						Comment:      "foo",
+						Comment:      "'foo'",
 					},
 				},
 			},
@@ -908,7 +920,7 @@ func TestCreateTableWithConstraints(t *testing.T) {
 						IndexType:    "BTREE",
 						KeyBlockSize: "1",
 						Visibility:   "VISIBLE",
-						Comment:      "foo",
+						Comment:      "'foo'",
 					},
 				},
 				&UniqueKeyDefinition{
@@ -921,7 +933,7 @@ func TestCreateTableWithConstraints(t *testing.T) {
 						IndexType:    "BTREE",
 						KeyBlockSize: "1",
 						Visibility:   "VISIBLE",
-						Comment:      "foo",
+						Comment:      "'foo'",
 					},
 				},
 				&ForeignKeyDefinition{
