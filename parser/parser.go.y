@@ -241,6 +241,12 @@ token *lexer.Token
 
   	Variable
 
+  	NotKwd
+  	AndKwd
+  	OrKwd
+  	DivKwd
+  	ModKwd
+
 %type<keyword>
 	// Sign
   	OptEq
@@ -281,266 +287,247 @@ token *lexer.Token
   	OptLinearKwd
   	PartitionStorageEngineKwd
 
-  	NotKwd
-
 %token<token>
-	// Signs
-  	LP
-  	RP
-  	COMMA
-  	SEMICOLON
-  	EQ
-  	GT
-  	GTE
-  	LT
-  	LTE
-  	NE
-  	NSEQ
-  	AND
-  	OR
-  	XOR
-  	IS
-  	DOT
-  	NOT
-	PIPE
-	BIT_AND
-	RSHIFT
-	LSHIFT
-	PLUS
-	MINUS
-	MULT
-	DIV
-	MOD
-	HAT
-	LOCAL_VAR
-	GLOBAL_VAR
-	TILDE
-	EXCL
-	QSTN
-	ROW
-	LCB
-	RCB
+	// Keywords
 	AGAINST
-	CASE
-	WHEN
-	THEN
-	END
-	ELSE
-	IF
-	UNKNOWN
-
-  	// Create Statements
-	CREATE
-  	USE
-  	TEMPORARY
-  	DATABASE
-  	SCHEMA
-  	TABLE
-  	EXISTS
-
-  	// Database Options
-  	DEFAULT
-	CHARSET
-  	CHARACTER
-	SET
-	COLLATE
-  	ENCRYPTION
-
-  	// Numeric Types
-  	BIT
-  	TINYINT
-  	BOOL
-  	BOOLEAN
-  	SMALLINT
-  	MEDIUMINT
-  	INT
-  	INTEGER
-  	BIGINT
-  	UNSIGNED
-  	ZEROFILL
-  	DECIMAL
-  	DEC
-  	FIXED
-  	FLOAT
-  	DOUBLE
-  	REAL
-
-	// String Types
-  	CHAR
-	VARCHAR
-	BINARY
-	VARBINARY
-	TINYBLOB
-	TINYTEXT
-	BLOB
-	TEXT
-	MEDIUMBLOB
-	MEDIUMTEXT
-	LONGBLOB
-	LONGTEXT
-	ENUM
-
-  	// DateAndTime Types
-  	DATE
-  	TIME
-  	DATETIME
-  	TIMESTAMP
-  	YEAR
-
-	// Other Types
-  	JSON
-  	GEOMETRY
-  	POINT
-  	LINESTRING
-  	POLYGON
-  	MULTIPOINT
-  	MULTILINESTRING
-  	MULTIPOLYGON
-  	GEOMETRYCOLLECTION
-
-  	// Column Options
-	NULL
-	VISIBLE
-	INVISIBLE
-	AUTO_INCREMENT
-	UNIQUE
-	PRIMARY
-	KEY
-	CURRENT_TIMESTAMP
-	GENERATED
-	ALWAYS
-	AS
-	VIRTUAL
-	STORED
-	SRID
-
-	// Index
-	INDEX
-	ASC
-	DESC
-	USING
-	FULLTEXT
-	KEY_BLOCK_SIZE
-	WITH
-	PARSER
-
-	// Foreign Key
-	CONSTRAINT
-	FOREIGN
-	REFERENCES
-	MATCH
-	ON_DELETE
-	ON_UPDATE
-	CASCADE
-	RESTRICT
-	NO_ACTION
-
-	// Check Constraint
-	CHECK
-	ENFORCED
-	NOT_ENFORCED
-
-	// Table Options
-  	AUTOEXTENDED_SIZE
-  	AVG_ROW_LENGTH
-  	CHECKSUM
-	COMMENT
-  	COMPRESSION
-  	CONNECTION
-  	DELAY_KEY_WRITE
-  	DATA
-  	DIRECTORY
-  	ENGINE
-  	ENGINE_ATTRIBUTE
-  	INSERT_METHOD
-  	MAX_ROWS
-  	MIN_ROWS
-  	PACK_KEYS
-  	PASSWORD
-  	ROW_FORMAT
-  	SECONDARY_ENGINE_ATTRIBUTE
-  	STATS_AUTO_RECALC
-  	STATS_PERSISTENT
-  	STATS_SAMPLE_PAGES
-  	TABLESPACE
-  	STORAGE
-  	UNION
-
-	// Literals etc
-  	INT_NUM
-  	FLOAT_NUM
-  	BIT_NUM
-  	BIT_STR
-  	HEX_NUM
-  	HEX_STR
-	STRING
-  	IDENTIFIER
-  	QUOTED_IDENTIFIER
-  	TRUE
-  	FALSE
-	EXPRESSION
-
-  	// Partition Options
-  	PARTITION
-  	BY
-  	PARTITIONS
-  	Subpartition
-  	LINEAR
-  	HASH
-  	COLUMNS
-  	ALGORITHM
-  	RANGE
-  	LIST
-  	SUBPARTITIONS
-  	SUBPARTITION
-  	VALUES
-  	LESS
-  	THAN
-  	MAXVALUE
-  	IN
-  	NATURAL
-  	LANGUAGE
-  	MODE
-  	QUERY
-  	EXPANSION
-
-  	SOUNDS
-  	LIKE
-  	BETWEEN
-  	REGEXP
-
-  	INTERVAL
-
-  	MICROSECOND
-    SECOND
-    MINUTE
-    HOUR
-    DAY
-    WEEK
-    MONTH
-    QUARTER
-    SECOND_MICROSECOND
-    MINUTE_MICROSECOND
-    MINUTE_SECOND
-    HOUR_MICROSECOND
-    HOUR_SECOND
-    HOUR_MINUTE
-    DAY_MICROSECOND
-    DAY_SECOND
-    DAY_MINUTE
-    DAY_HOUR
-    YEAR_MONTH
-
-    CURRENT_USER
+    ALGORITHM
+    ALWAYS
+    AND
+    AS
+    ASC
+    AUTOEXTENDED_SIZE
+    AUTO_INCREMENT
+    AVG_ROW_LENGTH
+    BETWEEN
+    BIGINT
+    BINARY
+    BIT
+    BLOB
+    BOOL
+    BOOLEAN
+    BY
+    CASCADE
+    CASE
+    CHAR
+    CHARACTER
+    CHARSET
+    CHECK
+    CHECKSUM
+    COLLATE
+    COLUMNS
+    COMMENT
+    COMPRESSION
+    CONNECTION
+    CONSTRAINT
+    CREATE
     CURRENT_DATE
     CURRENT_ROLE
-    UTC_DATE
     CURRENT_TIME
+    CURRENT_TIMESTAMP
+    CURRENT_USER
+    DATA
+    DATABASE
+    DATE
+    DATETIME
+    DAY
+    DAY_HOUR
+    DAY_MICROSECOND
+    DAY_MINUTE
+    DAY_SECOND
+    DEC
+    DECIMAL
+    DEFAULT
+    DELAY_KEY_WRITE
+    DELETE
+    DESC
+    DIRECTORY
+    DIV
+    DOUBLE
+    ELSE
+    ENCRYPTION
+    END
+    ENFORCED
+    ENGINE
+    ENGINE_ATTRIBUTE
+    ENUM
+    EXISTS
+    EXPANSION
+    EXPRESSION
+    FALSE
+    FIXED
+    FLOAT
+    FOREIGN
+    FULLTEXT
+    GENERATED
+    GEOMETRY
+    GEOMETRYCOLLECTION
+    HASH
+    HOUR
+    HOUR_MICROSECOND
+    HOUR_MINUTE
+    HOUR_SECOND
+    IF
+    IN
+    INDEX
+    INSERT_METHOD
+    INT
+    INTEGER
+    INTERVAL
+    INVISIBLE
+    IS
+    JSON
+    KEY
+    KEY_BLOCK_SIZE
+    LANGUAGE
+    LESS
+    LIKE
+    LINEAR
+    LINESTRING
+    LIST
     LOCALTIME
     LOCALTIMESTAMP
+    LONGBLOB
+    LONGTEXT
+    MATCH
+    MAXVALUE
+    MAX_ROWS
+    MEDIUMBLOB
+    MEDIUMINT
+    MEDIUMTEXT
+    MICROSECOND
+    MINUS
+    MINUTE
+    MINUTE_MICROSECOND
+    MINUTE_SECOND
+    MIN_ROWS
+    MOD
+    MODE
+    MONTH
+    MULTILINESTRING
+    MULTIPOINT
+    MULTIPOLYGON
+    NATURAL
+    NOT
+    NOT_ENFORCED
+    NO_ACTION
+    NULL
+    ON
+    OR
+    PACK_KEYS
+    PARSER
+    PARTITION
+    PARTITIONS
+    PASSWORD
+    PIPE
+    PLUS
+    POINT
+    POLYGON
+    PRIMARY
+    QSTN
+    QUARTER
+    QUERY
+    RANGE
+    REAL
+    REFERENCES
+    REGEXP
+    RESTRICT
+    ROW
+    ROW_FORMAT
+    SCHEMA
+    SECOND
+    SECONDARY_ENGINE_ATTRIBUTE
+    SECOND_MICROSECOND
+    SET
+    SMALLINT
+    SOUNDS
+    SRID
+    STATS_AUTO_RECALC
+    STATS_PERSISTENT
+    STATS_SAMPLE_PAGES
+    STORAGE
+    STORED
+    SUBPARTITION
+    SUBPARTITIONS
+    TABLE
+    TABLESPACE
+    TEMPORARY
+    TEXT
+    THAN
+    THEN
+    TIME
+    TIMESTAMP
+    TINYBLOB
+    TINYINT
+    TINYTEXT
+    TRUE
+    UNION
+    UNIQUE
+    UNKNOWN
+    UNSIGNED
+    UPDATE
+    USE
+    USING
+    UTC_DATE
     UTC_TIME
     UTC_TIMESTAMP
+    VALUES
+    VARBINARY
+    VARCHAR
+    VIRTUAL
+    VISIBLE
+    WEEK
+    WHEN
+    WITH
+    XOR
+    YEAR
+    YEAR_MONTH
+    ZEROFILL
 
+
+	// Signs
+	lp
+    rp
+    lcb
+    rcb
+    comma
+    semicolon
+    eq
+    dot
+    gt
+    gte
+    lt
+    lte
+    ne
+    ne2
+    nseq
+    tilde
+    and
+    and2
+    or
+    or2
+    rshift
+    lshift
+    plus
+    minus
+    mult
+    div
+    mod
+    hat
+    excl
+    qstn
+	
+	// Literals
+	BIT_STR
+    BIT_NUM
+    INT_NUM
+    HEX_STR
+    HEX_NUM
+    FLOAT_NUM
+    STRING
+    IDENTIFIER
+    LOCAL_VAR
+    GLOBAL_VAR
+    QUOTED_IDENTIFIER
 
 %right NOT
 
@@ -557,7 +544,7 @@ Statements:
 		$$ = []Statement{$1}
 		yylex.(*Parser).result = $$
 	}
-|	Statements SEMICOLON Statement
+|	Statements semicolon Statement
 	{
 		if $3 != nil {
 		  $1 = append($1, $3)
@@ -681,13 +668,13 @@ TableName:
 	{
 		$$ = []string{"", $1}
 	}
-|	Identifier DOT Identifier
+|	Identifier dot Identifier
 	{
 		$$ = []string{$1, $3}
 	}
 
 CreateDefinitionList:
-    LP CreateDefinitions RP
+    lp CreateDefinitions rp
     {
 		$$ = $2
     }
@@ -697,7 +684,7 @@ CreateDefinitions:
     {
 		$$ = []interface{}{$1}
     }
-|   CreateDefinitions COMMA CreateDefinition
+|   CreateDefinitions comma CreateDefinition
     {
 		$$ = append($1, $3)
     }
@@ -908,7 +895,7 @@ OptFieldLen:
     }
 
 FieldLen:
-	LP IntLiteral RP
+	lp IntLiteral rp
 	{
 		$$ = $2
 	}
@@ -923,7 +910,7 @@ OptFieldLenAndScale:
 	}
 
 FieldLenAndScale:
-	LP IntLiteral COMMA IntLiteral RP
+	lp IntLiteral comma IntLiteral rp
 	{
 		$$ = []string{$2, $4}
 	}
@@ -938,11 +925,11 @@ OptFieldLenAndOptScale:
     }
 
 FieldLenAndOptScale:
-	LP IntLiteral RP
+	lp IntLiteral rp
 	{
 		$$ = []string{$2}
 	}
-|	LP IntLiteral COMMA IntLiteral RP
+|	lp IntLiteral comma IntLiteral rp
 	{
 		$$ = []string{$2, $4}
 	}
@@ -1301,7 +1288,7 @@ DefaultValue:
 	{
 		$$ = $1
 	}
-|	LP Expression RP
+|	lp Expression rp
 	{
 		$$ = fmt.Sprintf("(%s)", $2)
 	}
@@ -1351,7 +1338,7 @@ Collate:
 	}
 
 GeneratedAlwaysAs:
-	GeneratedAlwaysAsKwd LP Expression RP
+	GeneratedAlwaysAsKwd lp Expression rp
 	{
 		$$ = fmt.Sprintf("(%s)", $3)
 	}
@@ -1434,7 +1421,7 @@ OptIndexName:
 	}
 
 KeyPartList:
-	LP KeyParts RP
+	lp KeyParts rp
 	{
 		$$ = $2
 	}
@@ -1444,7 +1431,7 @@ KeyParts:
 	{
 		$$ = []KeyPart{$1.(KeyPart)}
 	}
-|	KeyParts COMMA KeyPart
+|	KeyParts comma KeyPart
 	{
 		$$ = append($1, $3.(KeyPart))
 	}
@@ -1604,15 +1591,15 @@ Match:
 	}
 
 OnDelete:
-	ON_DELETE ReferencialAction
+	ON DELETE ReferencialAction
 	{
-		$$ = $2
+		$$ = $3
 	}
 
 OnUpdate:
-	ON_UPDATE ReferencialAction
+	ON UPDATE ReferencialAction
 	{
-		$$ = $2
+		$$ = $3
 	}
 
 ReferencialAction:
@@ -2216,7 +2203,7 @@ OptPartitionDefinitionList:
 	}
 
 PartitionDefinitionList:
-    LP PartitionDefinitions RP
+    lp PartitionDefinitions rp
     {
 		$$ = $2
     }
@@ -2226,7 +2213,7 @@ PartitionDefinitions:
     {
 		$$ = []PartitionDefinition{$1.(PartitionDefinition)}
     }
-|   PartitionDefinitions COMMA PartitionDefinition
+|   PartitionDefinitions comma PartitionDefinition
     {
 		$$ = append($1, $3.(PartitionDefinition))
     }
@@ -2335,7 +2322,7 @@ OptSubpartitionDefinitionList:
 	}
 
 SubpartitionDefinitionList:
-    LP SubpartitionDefinitions RP
+    lp SubpartitionDefinitions rp
     {
 		$$ = $2
     }
@@ -2345,7 +2332,7 @@ SubpartitionDefinitions:
     {
 		$$ = []SubpartitionDefinition{$1.(SubpartitionDefinition)}
     }
-|   SubpartitionDefinitions COMMA SubpartitionDefinition
+|   SubpartitionDefinitions comma SubpartitionDefinition
     {
 		$$ = append($1, $3.(SubpartitionDefinition))
     }
@@ -2364,7 +2351,7 @@ OptEq:
 	{
 		$$ = false
 	}
-|	EQ
+|	eq
 	{
 		$$ = true
 	}
@@ -2477,13 +2464,13 @@ StringLiterals:
 	{
 		$$ = []string{$1}
 	}
-|	StringLiterals COMMA StringLiteral
+|	StringLiterals comma StringLiteral
 	{
 		$$ = append($1, $3)
 	}
 
 StringLiteralList:
-	LP StringLiterals RP
+	lp StringLiterals rp
 	{
 		$$ = $2
 	}
@@ -2503,13 +2490,13 @@ Identifiers:
 	{
 		$$ = []string{$1}
 	}
-|	Identifiers COMMA Identifier
+|	Identifiers comma Identifier
 	{
 		$$ = append($1, $3)
 	}
 
 IdentifierList:
-	LP Identifiers RP
+	lp Identifiers rp
 	{
 		$$ = $2
 	}
@@ -2525,31 +2512,35 @@ Variable:
 	}
 
 ComparisonOp:
-  EQ
+  eq
   {
     $$ = $1.Literal
   }
-| GT
+| gt
   {
     $$ = $1.Literal
   }
-| GTE
+| gte
   {
     $$ = $1.Literal
   }
-| LT
+| lt
   {
     $$ = $1.Literal
   }
-| LTE
+| lte
   {
     $$ = $1.Literal
   }
-| NE
+| ne
   {
     $$ = $1.Literal
   }
-| NSEQ
+| ne2
+  {
+    $$ = $1.Literal
+  }
+| nseq
   {
     $$ = $1.Literal
   }
@@ -2565,7 +2556,7 @@ OptExpressions:
 	}
 
 ExpressionList:
-	LP Expressions RP
+	lp Expressions rp
 	{
 		$$ = $2
 	}
@@ -2575,17 +2566,17 @@ Expressions:
 	{
 		$$ = []string{$1}
 	}
-|	Expressions COMMA Expression
+|	Expressions comma Expression
 	{
 		$$ = append($1, $3)
 	}
 
 Expression:
-	Expression AND Expression
+	Expression AndKwd Expression
 	{
 		$$ = fmt.Sprintf("%s AND %s", $1, $3)
 	}
-|	Expression OR Expression
+|	Expression OrKwd Expression
 	{
 		$$ = fmt.Sprintf("%s OR %s", $1, $3)
 	}
@@ -2610,11 +2601,25 @@ Expression:
 		$$ = $1
 	}
 
+AndKwd:
+	AND { $$ = $1.Literal }
+|	and2 { $$ = $1.Literal }
+
+OrKwd:
+	OR { $$ = $1.Literal }
+|	or2 { $$ = $1.Literal }
+
 NotKwd:
-	NOT
-	{ $$ = true }
-|	EXCL
-	{ $$ = true }
+	NOT { $$ = $1.Literal }
+|	excl { $$ = $1.Literal }
+
+DivKwd:
+	DIV { $$ = $1.Literal }
+|	div { $$ = $1.Literal }
+
+ModKwd:
+	MOD { $$ = $1.Literal }
+|	mod { $$ = $1.Literal }
 
 BooleanPrimaryExpression:
 	BooleanPrimaryExpression IS OptNot NULL
@@ -2631,7 +2636,7 @@ BooleanPrimaryExpression:
 	}
 
 PredicateExpression:
-//	BitExpression OptNot IN RP Subquery LP
+//	BitExpression OptNot IN rp Subquery lp
 //	{
 //		$$ = compactJoin([]string{$1, $2, "IN", "(", $5, ")")}, " ")
 //	}
@@ -2662,51 +2667,51 @@ PredicateExpression:
 	}
 
 BitExpression:
-	BitExpression PIPE BitExpression
+	BitExpression or BitExpression
 	{
 		$$ = fmt.Sprintf("%s | %s", $1, $3)
 	}
-| 	BitExpression BIT_AND BitExpression
+| 	BitExpression and BitExpression
 	{
 		$$ = fmt.Sprintf("%s & %s", $1, $3)
 	}
-| 	BitExpression RSHIFT BitExpression
+| 	BitExpression rshift BitExpression
 	{
 		$$ = fmt.Sprintf("%s << %s", $1, $3)
 	}
-| 	BitExpression LSHIFT BitExpression
+| 	BitExpression lshift BitExpression
 	{
 		$$ = fmt.Sprintf("%s >> %s", $1, $3)
 	}
-| 	BitExpression PLUS BitExpression
+| 	BitExpression plus BitExpression
 	{
 		$$ = fmt.Sprintf("%s + %s", $1, $3)
 	}
-| 	BitExpression MINUS BitExpression
+| 	BitExpression minus BitExpression
 	{
 		$$ = fmt.Sprintf("%s - %s", $1, $3)
 	}
-| 	BitExpression MULT BitExpression
+| 	BitExpression mult BitExpression
 	{
 		$$ = fmt.Sprintf("%s * %s", $1, $3)
 	}
-| 	BitExpression DIV BitExpression
+| 	BitExpression DivKwd BitExpression
 	{
 		$$ = fmt.Sprintf("%s / %s", $1, $3)
 	}
-| 	BitExpression MOD BitExpression
+| 	BitExpression ModKwd BitExpression
 	{
 		$$ = fmt.Sprintf("%s %% %s", $1, $3)
 	}
-| 	BitExpression HAT BitExpression
+| 	BitExpression hat BitExpression
 	{
 		$$ = fmt.Sprintf("%s ^ %s", $1, $3)
 	}
-| 	BitExpression PLUS IntervalExpression
+| 	BitExpression plus IntervalExpression
 	{
 		$$ = fmt.Sprintf("%s + %s", $1, $3)
 	}
-| 	BitExpression MINUS IntervalExpression
+| 	BitExpression minus IntervalExpression
 	{
 		$$ = fmt.Sprintf("%s - %s", $1, $3)
 	}
@@ -2737,7 +2742,7 @@ SimpleExpression:
 	{
 		$$ = fmt.Sprintf("%s COLLATE %s", $1, $3)
 	}
-| 	QSTN
+| 	qstn
 	{
 		$$ = "?"
 	}
@@ -2745,19 +2750,19 @@ SimpleExpression:
 	{
 		$$ = $1
 	}
-|	PLUS SimpleExpression
+|	plus SimpleExpression
 	{
 		$$ = fmt.Sprintf("+ %s", $2)
 	}
-|	MINUS SimpleExpression
+|	minus SimpleExpression
 	{
 		$$ = fmt.Sprintf("- %s", $2)
 	}
-|	TILDE SimpleExpression
+|	tilde SimpleExpression
 	{
 		$$ = fmt.Sprintf("~ %s", $2)
 	}
-|	EXCL SimpleExpression
+|	excl SimpleExpression
 	{
 		$$ = fmt.Sprintf("! %s", $2)
 	}
@@ -2774,15 +2779,15 @@ SimpleExpression:
 		expressions := fmt.Sprintf("(%s)", strings.Join($2, ", "))
 		$$ = fmt.Sprintf("ROW %s", expressions)
 	}
-//|	RP Subquery LP
+//|	rp Subquery lp
 //	{
 //
 //	}
-//|	EXISTS RP Subquery LP
+//|	EXISTS rp Subquery lp
 //	{
 //
 //	}
-|	LCB Identifier Expression RCB
+|	lcb Identifier Expression rcb
 	{
 		ident := fmt.Sprintf("`%s`", $2)
 		$$ = fmt.Sprintf("{%s %s}", ident, $3)
@@ -2801,7 +2806,7 @@ SimpleExpression:
 	}
 
 MatchExpression:
-	MATCH IdentifierList AGAINST LP BitExpression OptSearchModifier RP
+	MATCH IdentifierList AGAINST lp BitExpression OptSearchModifier rp
 	{
 		idents := fmt.Sprintf("(%s)", JoinS($2, ", ", "`"))
 		against := fmt.Sprintf("(%s)", compactJoin([]string{$5, $6}, " "))
@@ -2912,7 +2917,7 @@ FunctionCall:
 	}
 
 FunctionCallKeyword:
-	FunctionNameConflict LP OptExpressions RP
+	FunctionNameConflict lp OptExpressions rp
 	{
 		$$ = fmt.Sprintf("%s(%s)", $1, strings.Join($3, ","))
 	}
@@ -2927,7 +2932,7 @@ FunctionCallKeyword:
 
 OptBraces:
 	{ $$ = "" }
-|	LP RP { $$ = "()" }
+|	lp rp { $$ = "()" }
 
 FunctionNameConflict:
 	CHARSET { $$ = "CHAESET" }
@@ -2963,7 +2968,7 @@ FunctionNameDatetimePrecision:
 
 
 FunctionCallGeneric:
-	Identifier LP OptExpressions RP
+	Identifier lp OptExpressions rp
 	{
 		$$ = fmt.Sprintf("%s(%s)", $1, strings.Join($3, ","))
 	}

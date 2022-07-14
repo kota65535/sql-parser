@@ -10,16 +10,16 @@ import (
 )
 
 //go:generate go run gen.go
+//go:generate gofmt -w ../parser/keyword.go
 
 //go:embed keyword.go.tmpl
 var tokensTemplate string
 
 func main() {
-	f, err := os.Open("gen/keyword.txt")
+	f, err := os.Open("keyword.txt")
 	if err != nil {
 		panic(err)
 	}
-	defer f.Close()
 
 	scanner := bufio.NewScanner(f)
 	scanner.Split(bufio.ScanLines)
@@ -40,8 +40,21 @@ func main() {
 		"Tokens": tokens,
 	})
 
-	f2, err := os.Create("parser/keyword.go")
+	f2, err := os.Create("../parser/keyword.go")
 	f2.Write(buf.Bytes())
 	defer f2.Close()
 
+	f.Close()
+
+	f3, err := os.Create("keyword.txt")
+	if err != nil {
+		panic(err)
+	}
+	defer f3.Close()
+	for _, t := range tokens {
+		_, err = f3.WriteString(t + "\n")
+		if err != nil {
+			panic(err)
+		}
+	}
 }
