@@ -860,7 +860,7 @@ FloatingPointType:
 		   fieldLen = $2[0]
 		   fieldScale = $2[1]
 	 	}
-		$$ = FixedPointType{
+		$$ = FloatingPointType{
 			Name: "float",
 			FieldLen: fieldLen,
 			FieldScale: fieldScale,
@@ -876,7 +876,7 @@ FloatingPointType:
 		   fieldLen = $2[0]
 		   fieldScale = $2[1]
 	 	}
-		$$ = FixedPointType{
+		$$ = FloatingPointType{
 			Name: "double",
 			FieldLen: fieldLen,
 			FieldScale: fieldScale,
@@ -2129,11 +2129,11 @@ Subpartitions:
 	}
 
 PartitionByHash:
-	OptLinearKwd HASH Expression
+	OptLinearKwd HASH lp Expression rp
 	{
 		$$ = PartitionBy{
 		  Type: "HASH",
-		  Expression: $3,
+		  Expression: $4,
 		}
 	}
 
@@ -2147,27 +2147,27 @@ PartitionByKey:
 	}
 
 PartitionByRange:
-	RANGE Expression
+	RANGE lp Expression rp
 	{
 		$$ = PartitionBy{
 		  Type: "RANGE",
-		  Expression: $2,
+		  Expression: $3,
 		}
 	}
 |	RANGE COLUMNS IdentifierList
 	{
 		$$ = PartitionBy{
-		  Type: "RANGE COLUMNS",
+		  Type: "RANGE",
 		  Columns: $3,
 		}
 	}
 
 PartitionByList:
-	LIST Expression
+	LIST lp Expression rp
 	{
 		$$ = PartitionBy{
 		  Type: "LIST",
-		  Expression: $2,
+		  Expression: $3,
 		}
 	}
 |	LIST COLUMNS IdentifierList
@@ -2231,13 +2231,21 @@ PartitionDefinition:
 	}
 
 PartitionValues:
-	VALUES LESS THAN Expression
+	VALUES LESS THAN lp Expression rp
 	{
-		$$ = []string{"LESS THAN", $4}
+		$$ = []string{"LESS THAN", $5}
 	}
-|	VALUES IN Expression
+|	VALUES LESS THAN lp MAXVALUE rp
 	{
-		$$ = []string{"IN", $3}
+		$$ = []string{"LESS THAN", "MAXVALUE"}
+	}
+|	VALUES LESS THAN MAXVALUE
+	{
+		$$ = []string{"LESS THAN", "MAXVALUE"}
+	}
+|	VALUES IN lp Expression rp
+	{
+		$$ = []string{"IN", $4}
 	}
 
 PartitionOptions:
@@ -2935,22 +2943,22 @@ OptBraces:
 |	lp rp { $$ = "()" }
 
 FunctionNameConflict:
-	CHARSET { $$ = "CHAESET" }
-|	DATE { $$ = "DATE" }
-|	DATABASE { $$ = "DATABASE" }
-|	DEFAULT { $$ = "DEFAULT" }
-|	YEAR { $$ = "YEAR" }
-|	MONTH { $$ = "MONTH" }
-|	WEEK { $$ = "WEEK" }
-|	DAY { $$ = "DAY" }
-|	HOUR { $$ = "HOUR" }
-|	MINUTE { $$ = "MINUTE" }
-|	SECOND { $$ = "SECOND" }
-|	MICROSECOND { $$ = "MICROSECOND" }
-|	IF { $$ = "IF" }
-|	INTERVAL { $$ = "INTERVAL" }
-|	TIME { $$ = "TIME" }
-|	TIMESTAMP { $$ = "TIMESTAMP" }
+	CHARSET { $$ = "chaeset" }
+|	DATE { $$ = "date" }
+|	DATABASE { $$ = "database" }
+|	DEFAULT { $$ = "default" }
+|	YEAR { $$ = "year" }
+|	MONTH { $$ = "month" }
+|	WEEK { $$ = "week" }
+|	DAY { $$ = "day" }
+|	HOUR { $$ = "hour" }
+|	MINUTE { $$ = "minute" }
+|	SECOND { $$ = "second" }
+|	MICROSECOND { $$ = "microsecond" }
+|	IF { $$ = "if" }
+|	INTERVAL { $$ = "interval" }
+|	TIME { $$ = "time" }
+|	TIMESTAMP { $$ = "timestamp" }
 
 FunctionNameOptionalBraces:
 	CURRENT_USER { $$ = "CURRENT_UESR" }
@@ -2966,13 +2974,11 @@ FunctionNameDatetimePrecision:
 |   UTC_TIME { $$ = "UTC_TIME" }
 |   UTC_TIMESTAMP { $$ = "UTC_TIMESTAMP" }
 
-
 FunctionCallGeneric:
 	Identifier lp OptExpressions rp
 	{
-		$$ = fmt.Sprintf("%s(%s)", $1, strings.Join($3, ","))
+		$$ = fmt.Sprintf("%s(%s)", strings.ToLower($1), strings.Join($3, ","))
 	}
-
 
 OptTemporaryKwd:
 	{ $$ = false }

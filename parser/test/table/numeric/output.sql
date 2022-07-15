@@ -18,8 +18,8 @@ CREATE TABLE `t1`
     `decimal2`   decimal(2),
     `decimal3`   decimal(2, 1) unsigned zerofill NOT NULL DEFAULT 1,
     `float1`     float,
-    `float2`     float(2, 1) unsigned zerofill   NOT NULL DEFAULT (RAND() * RAND()),
+    `float2`     float(2, 1) unsigned zerofill   NOT NULL DEFAULT (rand() * rand()),
     `double1`    double,
     `double2`    double(2, 1) unsigned zerofill  NOT NULL DEFAULT 1.1,
-    `double3`    double                          GENERATED ALWAYS AS (SQRT(`double1` * `double2`))
+    `double3`    double                          GENERATED ALWAYS AS (sqrt(`double1` * `double2`))
 );

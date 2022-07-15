@@ -203,8 +203,8 @@ func (t FloatingPointType) String() string {
 	return fmt.Sprintf("%s%s%s%s",
 		t.Name,
 		lenAndPlace,
-		opt(t.Unsigned, " unsigned"),
-		opt(t.Zerofill, " zerofill"))
+		optB(t.Unsigned, " unsigned"),
+		optB(t.Zerofill, " zerofill"))
 }
 
 type DateAndTimeType struct {
@@ -696,7 +696,7 @@ type PartitionDefinition struct {
 
 func (r PartitionDefinition) Strings() []string {
 	ret := []string{}
-	ret = append(ret, fmt.Sprintf("PARTITION %s VALUES %s %s", r.Name, r.Operator, r.ValueExpression))
+	ret = append(ret, fmt.Sprintf("PARTITION %s VALUES %s (%s)", r.Name, r.Operator, r.ValueExpression))
 	ret = append(ret, r.PartitionOptions.Strings()...)
 	for _, p := range r.Subpartitions {
 		ret = append(ret, p.Strings()...)
@@ -731,11 +731,13 @@ type PartitionBy struct {
 }
 
 func (r PartitionBy) String() string {
-	values := r.Expression
-	if r.Expression == "" {
-		values = "(" + JoinS(r.Columns, ",", "`") + ")"
+	var values string
+	if r.Expression != "" {
+		values = fmt.Sprintf("(%s)", r.Expression)
+	} else {
+		values = "COLUMNS (" + JoinS(r.Columns, ", ", "`") + ")"
 	}
-	return fmt.Sprintf("%s%s", r.Type, optS(values, " %s"))
+	return fmt.Sprintf("%s %s", r.Type, values)
 }
 
 type PartitionOptions struct {

@@ -315,13 +315,13 @@ func TestCreateTableWithNumericTypes(t *testing.T) {
 				},
 				&ColumnDefinition{
 					ColumnName: "float1",
-					DataType: FixedPointType{
+					DataType: FloatingPointType{
 						Name: "float",
 					},
 				},
 				&ColumnDefinition{
 					ColumnName: "float2",
-					DataType: FixedPointType{
+					DataType: FloatingPointType{
 						Name:       "float",
 						FieldLen:   "2",
 						FieldScale: "1",
@@ -330,18 +330,18 @@ func TestCreateTableWithNumericTypes(t *testing.T) {
 					},
 					ColumnOptions: ColumnOptions{
 						Nullability: "NOT NULL",
-						Default:     "(RAND() * RAND())",
+						Default:     "(rand() * rand())",
 					},
 				},
 				&ColumnDefinition{
 					ColumnName: "double1",
-					DataType: FixedPointType{
+					DataType: FloatingPointType{
 						Name: "double",
 					},
 				},
 				&ColumnDefinition{
 					ColumnName: "double2",
-					DataType: FixedPointType{
+					DataType: FloatingPointType{
 						Name:       "double",
 						FieldLen:   "2",
 						FieldScale: "1",
@@ -355,11 +355,11 @@ func TestCreateTableWithNumericTypes(t *testing.T) {
 				},
 				&ColumnDefinition{
 					ColumnName: "double3",
-					DataType: FixedPointType{
+					DataType: FloatingPointType{
 						Name: "double",
 					},
 					ColumnOptions: ColumnOptions{
-						GeneratedAs: "(SQRT(`double1` * `double2`))",
+						GeneratedAs: "(sqrt(`double1` * `double2`))",
 					},
 				},
 			},
@@ -436,7 +436,7 @@ func TestCreateTableWithStringTypes(t *testing.T) {
 					},
 					ColumnOptions: ColumnOptions{
 						Nullability: "NOT NULL",
-						Default:     "(UUID_TO_BIN(UUID()))",
+						Default:     "(uuid_to_bin(uuid()))",
 					},
 				},
 				&ColumnDefinition{
@@ -1077,7 +1077,7 @@ func TestCreateTableWithPartitions(t *testing.T) {
 			Partitions: PartitionConfig{
 				PartitionBy: PartitionBy{
 					Type:       "HASH",
-					Expression: "(`int1`)",
+					Expression: "`int1`",
 				},
 				PartitionDefinitions: []PartitionDefinition{},
 			},
@@ -1106,31 +1106,31 @@ func TestCreateTableWithPartitions(t *testing.T) {
 			Partitions: PartitionConfig{
 				PartitionBy: PartitionBy{
 					Type:       "RANGE",
-					Expression: "(year(`date1`))",
+					Expression: "year(`date1`)",
 				},
-				Partitions: "4",
+				Partitions: "3",
 				SubpartitionBy: PartitionBy{
 					Type:       "HASH",
-					Expression: "(to_days(`date1`))",
+					Expression: "to_days(`date1`)",
 				},
 				Subpartitions: "2",
 				PartitionDefinitions: []PartitionDefinition{
 					{
 						Name:            "p0",
 						Operator:        "LESS THAN",
-						ValueExpression: "(1990)",
+						ValueExpression: "1990",
 						Subpartitions:   []SubpartitionDefinition{},
 					},
 					{
 						Name:            "p1",
 						Operator:        "LESS THAN",
-						ValueExpression: "(2000)",
+						ValueExpression: "2000",
 						Subpartitions:   []SubpartitionDefinition{},
 					},
 					{
 						Name:            "p2",
 						Operator:        "LESS THAN",
-						ValueExpression: "(maxvalue)",
+						ValueExpression: "MAXVALUE",
 						Subpartitions:   []SubpartitionDefinition{},
 					},
 				},
@@ -1139,4 +1139,53 @@ func TestCreateTableWithPartitions(t *testing.T) {
 
 	b2, err := ioutil.ReadFile("test/table/partition/output2.sql")
 	assert.Equal(t, string(b2), r[1].String())
+
+	assert.Equal(t,
+		CreateTableStatement{
+			TableName: "t3",
+			CreateDefinitions: []interface{}{
+				&ColumnDefinition{
+					ColumnName: "double1",
+					DataType: FloatingPointType{
+						Name: "double",
+					},
+				},
+				&ColumnDefinition{
+					ColumnName: "double2",
+					DataType: FloatingPointType{
+						Name: "double",
+					},
+				},
+			},
+			Partitions: PartitionConfig{
+				PartitionBy: PartitionBy{
+					Type:    "RANGE",
+					Columns: []string{`double1`, `double2`},
+				},
+				Partitions: "3",
+				PartitionDefinitions: []PartitionDefinition{
+					{
+						Name:            "p0",
+						Operator:        "LESS THAN",
+						ValueExpression: "1990.1",
+						Subpartitions:   []SubpartitionDefinition{},
+					},
+					{
+						Name:            "p1",
+						Operator:        "LESS THAN",
+						ValueExpression: "2000.1",
+						Subpartitions:   []SubpartitionDefinition{},
+					},
+					{
+						Name:            "p2",
+						Operator:        "LESS THAN",
+						ValueExpression: "MAXVALUE",
+						Subpartitions:   []SubpartitionDefinition{},
+					},
+				},
+			},
+		}, r[2])
+
+	b3, err := ioutil.ReadFile("test/table/partition/output3.sql")
+	assert.Equal(t, string(b3), r[2].String())
 }

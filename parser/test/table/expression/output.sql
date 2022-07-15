@@ -20,7 +20,7 @@ CREATE TABLE `t1`
     `i18` int DEFAULT (3 <> 5),
     `i19` int DEFAULT ((1 + 2) * 3),
     `i20` int DEFAULT (1 + 2 * 3),
-    `i21` int DEFAULT (DEFAULT(`i`)),
+    `i21` int DEFAULT (default(`i`)),
     `i22` int DEFAULT ('a' IN ('b')),
     `i23` int DEFAULT (2 IN (0, 3, 7)),
     `i24` int DEFAULT (2 NOT IN (0, 3, 7)),
