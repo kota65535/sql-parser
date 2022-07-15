@@ -10,7 +10,7 @@ import (
 )
 
 //go:generate go run gen.go
-//go:generate gofmt -w ../parser/keyword.go
+//go:generate gofmt -w ../keyword.go
 
 //go:embed keyword.go.tmpl
 var tokensTemplate string
@@ -40,7 +40,7 @@ func main() {
 		"Tokens": tokens,
 	})
 
-	f2, err := os.Create("../parser/keyword.go")
+	f2, err := os.Create("../keyword.go")
 	f2.Write(buf.Bytes())
 	defer f2.Close()
 
